@@ -48,3 +48,31 @@ This structure separates API routes, business logic, configuration, models, prom
 - Integrate GitHub API.
 - Fetch Pull Request metadata and changed files.
 - Build the review service to process PR diffs before connecting the local LLM (Ollama).
+
+✅ Phase 2 – GitHub Integration
+Implemented end-to-end GitHub Pull Request integration.
+Features completed
+Integrated GitHub API using PyGithub.
+Added request and response models using Pydantic.   
+Implemented GitHub Personal Access Token authentication.
+Parsed GitHub Pull Request URLs.
+Retrieved Pull Request metadata.
+Retrieved changed files and unified diffs (patch).
+Exposed a POST /review API endpoint.
+Validated the complete workflow using FastAPI Swagger.
+
+### ✅ Current Architecture
+
+Client
+   │
+   ▼
+FastAPI
+   │
+   ▼
+GitHub Service
+   │
+   ▼
+GitHub API
+   │
+   ▼
+Structured JSON Response
