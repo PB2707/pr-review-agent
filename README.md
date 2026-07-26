@@ -76,3 +76,16 @@ GitHub API
    │
    ▼
 Structured JSON Response
+
+✅ Phase 3 – AI-Powered PR Review
+Integrated a local Large Language Model (LLM) to automatically review Pull Requests.
+Features Completed
+Integrated Ollama for local LLM inference
+Added LLMService for AI communication
+Added PromptService for prompt management
+Added ReviewService to orchestrate the review workflow
+Created reusable reviewer prompt templates
+Generated AI-powered code review comments from GitHub diffs
+Added review execution timing
+Skipped unsupported or non-reviewable files
+Returned structured AI review responses through the API
