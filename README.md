@@ -89,3 +89,25 @@ Generated AI-powered code review comments from GitHub diffs
 Added review execution timing
 Skipped unsupported or non-reviewable files
 Returned structured AI review responses through the API
+
+✅ Phase 4 - Multi-Agent AI Review
+## 
+
+### Features Added
+
+- Introduced a multi-agent architecture for PR reviews.
+- Added specialized AI agents:
+  - Security Agent
+  - Performance Agent
+  - Readability Agent
+- Added a Summary Agent to consolidate all agent feedback into an executive summary.
+- Refactored PromptService to dynamically load prompts.
+- Enhanced ReviewService to orchestrate multiple AI agents.
+- Updated API response schema to include agent-wise reviews and an overall summary.
+
+### Sample Response
+
+- Executive Summary
+- Security Review
+- Performance Review
+- Readability Review
