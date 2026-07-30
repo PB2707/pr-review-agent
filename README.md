@@ -111,3 +111,22 @@ Returned structured AI review responses through the API
 - Security Review
 - Performance Review
 - Readability Review
+
+## Phase 5 – Advanced Review Pipeline
+
+### Features Added
+
+- Executed specialist AI review agents concurrently using `ThreadPoolExecutor`.
+- Introduced automated risk assessment with risk score and severity level.
+- Added a dedicated `ReportService` for Markdown report generation.
+- Generated human-readable review reports under the `reports/` directory.
+- Improved service separation by keeping orchestration, prompt management, and report generation independent.
+
+### Sample Output
+
+- Executive Summary
+- Risk Assessment
+- Security Review
+- Performance Review
+- Readability Review
+- Generated Markdown Report

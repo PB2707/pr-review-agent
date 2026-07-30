@@ -5,10 +5,15 @@ class AgentReview(BaseModel):
     agent: str
     review: str
 
+class RiskAssessment(BaseModel):
+    score: int
+    level: str
+
 
 class FileReview(BaseModel):
     filename: str
     summary: str
+    risk: RiskAssessment
     reviews: list[AgentReview]
 
 
@@ -18,3 +23,4 @@ class AIReviewResponse(BaseModel):
     review_count: int
     duration_seconds: float
     reviews: list[FileReview]
+
