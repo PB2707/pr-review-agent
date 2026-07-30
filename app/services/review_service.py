@@ -1,24 +1,15 @@
 from app.services.github_service import GitHubService
 from app.services.llm_service import LLMService
 from app.services.prompt_service import PromptService
-from pathlib import Path
 import time
-SUPPORTED_EXTENSIONS = {
-    ".py",
-    ".java",
-    ".js",
-    ".ts",
-    ".go",
-    ".cpp",
-    ".c",
-    ".cs",
-    ".sql",
-    ".yaml",
-    ".yml",
-    ".json",
-    ".xml",
-    ".md",
-}
+
+
+AGENTS = [
+    ("Security", "security_prompt.txt"),
+    ("Performance", "performance_prompt.txt"),
+    ("Readability", "readability_prompt.txt"),
+]
+
 
 class ReviewService:
 
@@ -35,64 +26,94 @@ class ReviewService:
 
         reviews = []
 
-        base_prompt = self.prompts.load_reviewer_prompt()
-
         for file in pr.files:
-
-            extension = Path(file.filename).suffix
-
-            if extension and extension not in SUPPORTED_EXTENSIONS:
-                print(f"Skipping {file.filename}")
-                continue
 
             if not file.patch:
                 print(f"Skipping {file.filename} (no patch)")
                 continue
 
-            prompt = f"""
-    {base_prompt}
+            agent_reviews = []
 
-    Repository Pull Request Review
+            # Run each specialist agent
+            for agent_name, prompt_file in AGENTS:
 
-    Filename:
-    {file.filename}
+                base_prompt = self.prompts.load_prompt(prompt_file)
 
-    Status:
-    {file.status}
+                prompt = f"""
+{base_prompt}
 
-    Additions:
-    {file.additions}
+Filename:
+{file.filename}
 
-    Deletions:
-    {file.deletions}
+Status:
+{file.status}
 
-    Diff:
+Additions:
+{file.additions}
 
-    {file.patch}
-    """
+Deletions:
+{file.deletions}
 
-            print(f"Reviewing {file.filename}...")
+Diff:
+{file.patch}
+"""
 
-            try:
-                ai_review = self.llm.chat(prompt)
-            except Exception as e:
-                ai_review = f"Error generating review: {str(e)}"
+                print(f"Running {agent_name} Agent on {file.filename}...")
 
-            print("✓ Review complete")
+                review = self.llm.chat(prompt)
 
-            reviews.append({
-                "filename": file.filename,
-                "review": ai_review
-            })
+                agent_reviews.append(
+                    {
+                        "agent": agent_name,
+                        "review": review,
+                    }
+                )
+
+            # Combine all agent reviews
+            combined_reviews = ""
+
+            for review in agent_reviews:
+                combined_reviews += (
+                    f"{review['agent']} Review:\n"
+                    f"{review['review']}\n\n"
+                )
+
+            # Run Summary Agent
+            summary_prompt = self.prompts.load_prompt("summary_prompt.txt")
+
+            summary_input = f"""
+{summary_prompt}
+
+Below are the reviews from multiple AI reviewers.
+
+{combined_reviews}
+"""
+
+            print(f"Running Summary Agent on {file.filename}...")
+
+            summary = self.llm.chat(summary_input)
+
+            # Store the complete review for this file
+            reviews.append(
+                {
+                    "filename": file.filename,
+                    "summary": summary,
+                    "reviews": agent_reviews,
+                }
+            )
 
         end_time = time.time()
 
-        print(f"Review completed in {end_time - start_time:.2f} seconds")
-
-        return {
+        result = {
     "title": pr.title,
     "author": pr.author,
     "review_count": len(reviews),
     "duration_seconds": round(end_time - start_time, 2),
     "reviews": reviews,
 }
+
+        print("\n========== FINAL RESPONSE ==========")
+        print(result)
+        print("===================================\n")
+
+        return result

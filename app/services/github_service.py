@@ -4,7 +4,7 @@ from github import Github
 
 from app.core.config import settings
 from github.PullRequest import PullRequest
-from app.models.response_models import ChangedFile, ReviewResponse
+from app.models.response_models import ChangedFile, PullRequestDetails
 
 
 class GitHubService:
@@ -51,7 +51,7 @@ class GitHubService:
 
         return pull_request
     
-    def get_pr_details(self, pr_url: str) -> ReviewResponse:
+    def get_pr_details(self, pr_url: str) -> PullRequestDetails:
         """
         Fetch PR details and convert them to our response model.
         """
@@ -72,7 +72,7 @@ class GitHubService:
                 )
             )
 
-        return ReviewResponse(
+        return PullRequestDetails(
             title=pr.title,
             author=pr.user.login,
             base_branch=pr.base.ref,
