@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -24,8 +24,7 @@ class ReviewResponse(BaseModel):
 
 
 
-from pydantic import BaseModel
-from typing import Optional
+
 
 
 class ChangedFile(BaseModel):
@@ -43,3 +42,13 @@ class PullRequestDetails(BaseModel):
     base_branch: str
     head_branch: str
     files: list[ChangedFile]
+
+
+
+class AIReviewResponse(BaseModel):
+    title: str
+    author: str
+    review_count: int
+    duration_seconds: float
+    reviews: list[FileReview]
+    report_path: Optional[str] = None
