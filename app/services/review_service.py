@@ -143,15 +143,22 @@ Below are the reviews from multiple AI reviewers.
     "review_count": len(reviews),
     "duration_seconds": round(end_time - start_time, 2),
     "reviews": reviews,
-}
-
-        print("\n========== FINAL RESPONSE ==========")
-        print(result)
-        print("===================================\n")
-
+}       
         report_path = self.report_service.generate_markdown(result)
 
-        print(f"Markdown report saved to: {report_path}")
+        result["report_path"] = report_path
+
+        print("\n========== FINAL RESPONSE ==========")
+        
+        print("===================================\n")
+
+
+        
+        # report_path = self.report_service.generate_markdown(result)
+
+        # result["report_path"] = report_path
+
+        # print(f"Markdown report saved to: {report_path}")
 
 
         return result

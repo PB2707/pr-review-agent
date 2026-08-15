@@ -130,3 +130,11 @@ Returned structured AI review responses through the API
 - Performance Review
 - Readability Review
 - Generated Markdown Report
+
+✅ Phase 6: Interactive Streamlit dashboard
+Enter PR URL
+Trigger AI review
+Display executive summary
+Show risk assessment
+Expandable agent reviews
+Download Markdown report

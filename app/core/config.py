@@ -10,6 +10,7 @@ class Settings:
 
     GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
     OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5-coder:7b")
+    API_KEY = "sk-test-123456789" # just for testing 
 
 
 settings = Settings()
