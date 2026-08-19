@@ -175,7 +175,13 @@ Below are the reviews from multiple AI reviewers.
 
         score = 1
 
-        if "critical" in text:
+        if "sql injection" in text:
+            score = 5
+        elif "command injection" in text:
+            score = 5
+        elif "hardcoded secret" in text:
+            score = 5
+        elif "authentication bypass" in text:
             score = 5
         elif "high" in text:
             score = 4
