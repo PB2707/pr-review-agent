@@ -27,6 +27,8 @@ You MUST check for:
 
 6. Insecure File Operations
 
+7. A string such as "sql injection" is NOT SQL injection.
+
 Do not assume code is safe merely because the function is simple.
 
 If you find a vulnerability, clearly state:
