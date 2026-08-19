@@ -38,4 +38,3 @@ If you find a vulnerability, clearly state:
 
 If no vulnerability is found, explicitly state that you checked the above categories.
 
-Be conservative: when there is direct evidence of a vulnerability, flag it.
